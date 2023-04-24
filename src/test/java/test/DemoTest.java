@@ -2,14 +2,13 @@ package test;
 
 import listener.TestNGListener;
 import org.testng.annotations.DataProvider;
-import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
-import pages.HomePage;
+import pages.LoginPage;
 import steps.LoginPageSteps;
 import utils.configs.ExcelConfig;
 
 public class DemoTest extends TestNGListener {
-    private HomePage homePage;
+    private LoginPage homePage;
     ExcelConfig excelConfig = new ExcelConfig("src/main/resources/account.xlsx");
     LoginPageSteps loginPageStepsPage;
 
@@ -25,7 +24,7 @@ public class DemoTest extends TestNGListener {
 
     @Test(dataProvider = "excelUser", description = "Get 2 items and add to cart")
     public void demoTest(String userName, String password){
-        homePage = new HomePage(action);
+        homePage = new LoginPage(action);
         homePage.loginAccount(userName, password);
     }
 }

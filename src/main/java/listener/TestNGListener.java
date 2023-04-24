@@ -7,10 +7,7 @@ import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriver;
 import org.testng.ITestNGListener;
 import org.testng.ITestResult;
-import org.testng.annotations.AfterTest;
-import org.testng.annotations.BeforeTest;
-import org.testng.annotations.Listeners;
-import org.testng.annotations.Parameters;
+import org.testng.annotations.*;
 
 import utils.configs.ConfigSettings;
 
@@ -30,15 +27,10 @@ public class TestNGListener implements Listeners {
         configSettings = new ConfigSettings(System.getProperty("user.dir"));
     }
 
-    @Parameters({ "browser" })
-    @BeforeTest
-    public void beforeTest(String browser) {
-        System.out.println("start before test");
+    @BeforeMethod(alwaysRun = true)
+    public void beforeTest() {
         deleteFileFromDirectory();
-        System.out.println("browser: " + browser);
-        System.out.println("configSettings.getBaseUrl(): " + configSettings.getBaseUrl());
         action.openBrowser(configSettings.getBaseUrl());
-        System.out.println("end before test");
     }
 
     private static String getTestMethodName(ITestResult iTestResult) {
@@ -89,10 +81,10 @@ public class TestNGListener implements Listeners {
         }
     }
 
-//    @AfterTest
-//    public void afterTest() {
-//        action.closeBrowser(configSettings.getBaseUrl());
-//    }
+    @AfterMethod(alwaysRun = true)
+    public void afterTest() {
+        action.closeBrowser(configSettings.getBaseUrl());
+    }
 
     @Override
     public Class<? extends ITestNGListener>[] value() {

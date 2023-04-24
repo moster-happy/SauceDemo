@@ -43,7 +43,6 @@ public class WebKeywords {
 
 	// 1. open Browser
 	public void openBrowser(String... url) {
-		System.out.println("url: " + url[0]);
 		if (System.getenv("browser") != null && !System.getenv("browser").isEmpty()) {
 			browser = System.getenv("browser");
 		}
@@ -53,11 +52,10 @@ public class WebKeywords {
 			WebDriver driver = driverManager.getDriver();
 			getDriver().manage().window().maximize();
 			logger.info(MessageFormat.format("Openned ''{0}'' browser successfully", browser.toUpperCase()));
-			String rawUrl = url.length > 0 ? url[1] : "";
+			String rawUrl = url[0];
 			if (rawUrl != null && !rawUrl.isEmpty()) {
 				logger.info(MessageFormat.format("Navigating to url ''{0}''", rawUrl));
 				driver.get(rawUrl);
-				getDriver().manage().window().maximize();
 				logger.info(MessageFormat.format("Navigated to url ''{0}'' successfully", rawUrl));
 			}
 		} catch (Exception e) {
@@ -279,6 +277,7 @@ public class WebKeywords {
 		WebElement we = findWebElement(locator);
 		logger.info(MessageFormat.format("Setting text ''{0}'' to web element located by ''{1}''", text, locator));
 		try {
+			we.clear();
 			we.sendKeys(text);
 			logger.info(MessageFormat.format("Set text ''{0}'' to web element located by ''{1}'' successfully", text,
 					locator));

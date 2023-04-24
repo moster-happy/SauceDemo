@@ -18,57 +18,27 @@ public class HomePage {
     private Item item;
     List<WebElement> els = new ArrayList<WebElement>();
     List<Item> listItems = new ArrayList<>();
-    Comparator<Item> comparator = Comparator.comparing(Item::getChange);
-
-    private String GROUP_CHANGE_ITEMS = "//div[@id='pills-active']//tr/td[3]";
-    private String GROUP_CODE_ITEMS = "//div[@id='pills-active']//tr/td[1]";
-    private String GROUP_NAME_ITEMS = "//div[@id='pills-active']//tbody/tr/th";
-    private String GROUP_VOL_ITEMS = "//div[@id='pills-active']//tr/td[4]";
+    private String INPUT_USERNAME = "//input[@id='user-name']";
+    private String INPUT_PASSWORD = "//input[@id='password']";
+    private String LOGIN_BTN = "//input[@id='login-button']";
 
     public HomePage(WebKeywords action){
         this.action = action;
     }
 
-    @Step("Get group items")
-    public void getGroupItems(){
-        els = action.findWebElements(GROUP_CHANGE_ITEMS);
-        int count =0 ;
-        List<WebElement> codeItems = action.findWebElements(GROUP_CODE_ITEMS);
-        List<WebElement> nameItems = action.findWebElements(GROUP_NAME_ITEMS);
-        List<WebElement> changeItems = action.findWebElements(GROUP_CHANGE_ITEMS);
-        List<WebElement> volItems = action.findWebElements(GROUP_VOL_ITEMS);
-
-        action.scrollToElement(GROUP_CHANGE_ITEMS);
-        for(int i = 0; i <els.size() ; i++) {
-            count++;
-            float change = 0;
-            String name = action.getText(nameItems.get(i));
-            String code = action.getText(codeItems.get(i));
-            String vol = action.getText(volItems.get(i));
-            String txtChange = action.getText(changeItems.get(i));
-
-            if(txtChange.contains(".")){
-                try {
-                    change = Float.parseFloat(txtChange);
-                }catch(Exception e){
-                    logger.error("Cannot parse ''{0}'' to float. Root cause is: ''{1}''", txtChange, e.getMessage());
-                }
-            }
-            else{
-                change = 0 ;
-            }
-
-            item = new Item(count, name, code, change, txtChange, vol);
-            listItems.add(item);
-        }
-        action.takeScreenshot();
+    @Step("Login account")
+    public HomePage loginAccount(String userName, String passWord) {
+        System.out.println("userName: " + userName);
+        System.out.println("password: " + passWord);
+        action.setText(INPUT_USERNAME, userName);
+        action.setText(INPUT_PASSWORD, passWord);
+        action.click(LOGIN_BTN);
+        System.out.println("Done test");
+        return new HomePage(action);
     }
 
-    @Step("Descending order of change")
-    public void descendItem(){
-        Collections.sort(listItems, comparator);
-        Collections.reverse(listItems);
-        action.takeScreenshot();
-        System.out.println(listItems);
+    @Step("Get items")
+    public void getItems(){
+
     }
 }

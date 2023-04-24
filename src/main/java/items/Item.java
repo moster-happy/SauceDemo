@@ -1,28 +1,22 @@
 package items;
 
 public class Item {
-    private int count;
     private String name;
-    private String code;
-    private float change;
-    private String txtChange;
-    private String vol;
+    private int count;
+    private float price;
 
-    public Item(int count, String name, String code, float change, String txtChange, String vol){
-        this.count = count;
+    public Item(String name, int count, float price){
         this.name = name;
-        this.change = change;
-        this.txtChange = txtChange;
-        this.vol = vol;
-        this.code = code;
+        this.price = price;
+        this.count = count;
     }
 
     @Override
     public String toString(){
-        return "\n" + "Item " + count + " : Name: " + name + " ,Code: " + code + " ,Change: " + txtChange + " ,Vol: " + vol;
+        return "\n" + "Item " + count + " : Name: " + name + " ,Price: " + price;
     }
 
     public double getChange(){
-        return change;
+        return price;
     }
 }

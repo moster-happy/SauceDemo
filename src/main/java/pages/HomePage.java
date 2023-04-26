@@ -31,11 +31,11 @@ public class HomePage {
         for (WebElement el : elsNameItems) {
             listNameItems.add(action.getText(el));
         }
-        int value1 = rand.nextInt(5 - 3 + 1) + 3;
+        int value1 = rand.nextInt(6);
         String nameItem1 = listNameItems.get(value1);
         String locatorAddToCartItem1 = String.format(addToCartByItemName, nameItem1);
 
-        int value2 = rand.nextInt(2 - 0 + 1) + 0;
+        int value2 = getValueRandom(6, value1);
         String nameItem2 = listNameItems.get(value2);
         String locatorAddToCartItem2 = String.format(addToCartByItemName, nameItem2);
 
@@ -55,5 +55,17 @@ public class HomePage {
     public CartPage clickCartIcon() {
         action.click(cartIcon);
         return new CartPage(action);
+    }
+
+    public int getValueRandom(int bound, int value1) {
+        int value2 = rand.nextInt(bound);
+        for (int i=1; i >0; i++) {
+            if (value2 == value1) {
+                value2 = rand.nextInt(bound);
+            } else {
+                return value2;
+            }
+        }
+        return value2;
     }
 }

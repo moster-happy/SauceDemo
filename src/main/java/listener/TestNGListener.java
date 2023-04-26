@@ -9,6 +9,7 @@ import org.testng.ITestNGListener;
 import org.testng.ITestResult;
 import org.testng.annotations.*;
 
+import report.AllureManager;
 import utils.configs.ConfigSettings;
 
 import java.io.File;
@@ -27,9 +28,14 @@ public class TestNGListener implements Listeners {
         configSettings = new ConfigSettings(System.getProperty("user.dir"));
     }
 
+    @BeforeSuite
+    public void before() {
+        deleteFileFromDirectory();
+        AllureManager.setAllureEnvironmentInformation(configSettings.getBaseUrl(), "Chrome", "Product");
+    }
+
     @BeforeMethod(alwaysRun = true)
     public void beforeTest() {
-        deleteFileFromDirectory();
         action.openBrowser(configSettings.getBaseUrl());
     }
 
